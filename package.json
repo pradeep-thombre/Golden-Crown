@@ -5,7 +5,9 @@
   "main": "geektrust.js",
   "scripts": {
     "start": "nodemon geektrust",
-    "devStart": "nodemon geektrust"
+    "devStart": "nodemon geektrust",
+    "test": "mocha ./tests",
+    "test:watch": "jest --watch"
   },
   "author": "Pradeep Thombre",
   "license": "ISC",

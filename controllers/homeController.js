@@ -1,4 +1,5 @@
 const fs = require('fs');
+path = require('path');  
 var emblemMap = new Map();
 
 function setMapData(){
@@ -16,9 +17,21 @@ let countOfAliesKingdoms;
 
 module.exports.isRuling= async function (req,res){
     filePath=req.body.path;
+
     try{
-        let data= await fs.readFileSync(filePath, 'utf8').split(/\r?\n/);
-        
+
+        let data;
+        try{
+
+            // reading content of file from local 
+            data= await fs.readFileSync(filePath, 'utf8').split(/\r?\n/);
+        }catch(err){
+
+            // taking relative path for test cases
+            filePath = path.join(__dirname, filePath);
+            data= await fs.readFileSync(filePath, 'utf8').split(/\r?\n/);
+        }
+
 		// list of aliases and count
 		alliesKingdomes="SPACE ";
 		countOfAliesKingdoms=0;
@@ -52,6 +65,7 @@ module.exports.isRuling= async function (req,res){
 		if(countOfAliesKingdoms<minAliesRequired) {
             alliesKingdomes="NONE";
 		}
+
 
 		console.log(alliesKingdomes);
         res.status(200).json({
